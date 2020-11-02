@@ -33,7 +33,7 @@ A collection of [helper functions](https://github.com/nadinezab/video-game-recs/
 
 * **Blog Post**
 
-A blog post on Medium was created as part of this project.
+A [blog post](https://nadinezab.medium.com/visualising-embeddings-with-t-sne-b54bf6b635f?sk=4606e6721bb5406e09943e4221f104dc) on Medium was created as part of this project.
 
 
 ## Results and recommendations
