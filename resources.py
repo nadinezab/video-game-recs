@@ -7,6 +7,9 @@ import numpy as np
 from scipy import sparse
 from lightfm import LightFM
 
+from sklearn.metrics.pairwise import cosine_similarity
+
+
 def create_interaction_matrix(df,user_col, item_col, rating_col, norm= False, threshold = None):
     '''
     Creates an interaction matrix DataFrame
@@ -75,7 +78,7 @@ def run_model(interactions, n_components=30, loss='warp', epoch=30, n_jobs = 4):
     model.fit(x,epochs=epoch,num_threads = n_jobs)
     return model
 
-def sample_recommendation_user(model, interactions, user_id, user_dict, 
+def get_recs(model, interactions, user_id, user_dict, 
                                item_dict,threshold = 0,num_items = 10, show_known = True, show_recs = True):
     '''
     Produces user recommendations
@@ -125,3 +128,44 @@ def sample_recommendation_user(model, interactions, user_id, user_dict,
             print(str(counter) + '- ' + i)
             counter+=1
     return scores
+
+def create_item_emdedding_matrix(model,interactions):
+    '''
+    Creates item-item distance embedding matrix
+    Arguments:
+        model = trained matrix factorization model
+        interactions = dataset used for training the model
+    Returns:
+        Pandas dataframe containing cosine distance matrix between items
+    '''
+    df_item_norm_sparse = sparse.csr_matrix(model.item_embeddings)
+    similarities = cosine_similarity(df_item_norm_sparse)
+    item_emdedding_matrix = pd.DataFrame(similarities)
+    item_emdedding_matrix.columns = interactions.columns
+    item_emdedding_matrix.index = interactions.columns
+    
+    return item_emdedding_matrix
+
+def get_item_recs(item_emdedding_matrix, item_id, 
+                             item_dict, n_items = 10, show = True):
+    '''
+    Function to create item-item recommendation
+    Arguments: 
+        - item_emdedding_distance_matrix = Pandas dataframe containing cosine distance matrix b/w items
+        - item_id  = item ID for which we need to generate recommended items
+        - item_dict = Dictionary type input containing item_id as key and item_name as value
+        - n_items = Number of items needed as an output
+    Returns:
+        - recommended_items = List of recommended items
+    '''
+    recommended_items = list(pd.Series(item_emdedding_matrix.loc[item_id,:]. \
+                                  sort_values(ascending = False).head(n_items+1). \
+                                  index[1:n_items+1]))
+    if show == True:
+        print("Item of interest: {0}".format(item_dict[item_id]))
+        print("Similar items:")
+        counter = 1
+        for i in recommended_items:
+            print(str(counter) + '- ' +  item_dict[i])
+            counter+=1
+    return recommended_items
