@@ -49,7 +49,7 @@ A [blog post](https://nadinezab.medium.com/visualising-embeddings-with-t-sne-b54
 
 We drew insights and provided recommendations to the marketing team, such as the below regarding timing of game releases. Other recommendations can be found in the Notebooks.
 
-<img src="/Images/month.png" alt="Number of games released per month plot" >
+<img src="/Images/month.png" alt="Number of games released per month plot" width = "500">
 
 We saw that October, November and December have the highest number of game releases. 
 We would recommend ensuring advertisement deals are priced at a premium during this period.
@@ -57,11 +57,11 @@ We would recommend ensuring advertisement deals are priced at a premium during t
 We built a user game recommendation engine, which takes in a user id and generates `k` games that the user is predicted to like. 
 Once integrated with the Steam interface, this can be used directly to display recommended games on a user's homepage. We would need to conduct A/B testing to see if it outperforms the existing games recommender. Based on domain knowledge, the recommendations appear sensible.
 
-<img src="/Images/useritems.png" alt="User item predictions" >
+<img src="/Images/useritem.png" alt="User item predictions" width = "500" >
 
 We looked at item similarity and built an 'item-to-item' recommendation enginem, which generates `k` similar items using cosine similarity. Once integrated with the Steam interface, this can be used directly to display similar games on a given game's page. We would need to conduct A/B testing to see if it outperforms the existing similar games recommender. Based on domain knowledge, the recommendations appear sensible.
 
-<img src="/Images/similaritems.png" alt="Items similar to American Truck Simulator" >
+<img src="/Images/similaritems.png" alt="Items similar to American Truck Simulator" width = "500" >
 
 
 ## Contact
